@@ -1,0 +1,13 @@
+name: tests
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  math-and-census:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+      - run: pip install pytest networkx python-igraph
+      - run: pytest tests/test_group_theory.py -q
+      - run: cd src && python collision_census.py ../tests/sample_groups.json
